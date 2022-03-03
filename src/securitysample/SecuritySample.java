@@ -5,7 +5,9 @@
  */
 package securitysample;
 
+import com.sun.security.auth.module.NTLoginModule;
 import java.io.*;
+import java.util.HashMap;
 import javax.security.auth.login.*;
 import javax.security.auth.callback.*;
 
@@ -21,6 +23,16 @@ public class SecuritySample {
     * @param args input arguments for this application.  These are ignored.
     */
     public static void main(String[] args) {
+        Configuration config = new Configuration() {
+            @Override
+            public AppConfigurationEntry[] getAppConfigurationEntry(String name) {
+                return new AppConfigurationEntry[]{
+                    new AppConfigurationEntry(NTLoginModule.class.getName(),
+                        AppConfigurationEntry.LoginModuleControlFlag.REQUIRED,
+                        new HashMap<>())
+                };
+            }
+        };
 
         // Obtain a LoginContext, needed for authentication. Tell it
         // to use the LoginModule implementation specified by the
